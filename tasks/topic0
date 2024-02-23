@@ -1,6 +1,0 @@
-from textual.app import App, ComposeResult
-from textual.widgets import Markdown
-class Topic0:
-    name = "Тема 0"
-    def compose(self, app: App) -> ComposeResult:
-        return [Markdown("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec odio nec nunc tincidunt tincidunt.")]

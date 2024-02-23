@@ -5,6 +5,7 @@
 	width: 20%;
 	border: white;
 }
+
 #main-content {
 	border: white;
 	margin: 0;
@@ -21,6 +22,7 @@
 	}
 	Center {
         align: left middle;
-        height: 3;
+		height: 3;
     }
+	min-height: 3;
 }
