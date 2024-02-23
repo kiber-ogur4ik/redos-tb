@@ -1,0 +1,26 @@
+
+#sidebar {
+	dock: left;
+	height: 100%;
+	width: 20%;
+	border: white;
+}
+#main-content {
+	border: white;
+	margin: 0;
+}
+
+.task-check {
+	
+	Button {
+		margin-left: 4
+	}
+	Label {
+		margin-left: 4;
+		height: auto;
+	}
+	Center {
+        align: left middle;
+        height: 3;
+    }
+}
