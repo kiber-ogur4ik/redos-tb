@@ -54,7 +54,7 @@ def check_task(self, task_number):
             task_check_widget_update(self, task_number, "PasswordAuthentication no" in sshd_config.stdout)
         case "2-1":
             iptables = subprocess.run(["pkexec","iptables", "-S"], capture_output=True, text=True).stdout
-            task_check_widget_update(self, task_number, "-P INPUT DROP" in iptables)
+            task_check_widget_update(self, task_number, ("-P INPUT DROP" in iptables) and ("-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT" in iptables))
         case "2-2":
             iptables = subprocess.run(["pkexec","iptables", "-S"], capture_output=True, text=True).stdout
             task_check_widget_update(self, task_number, "-A INPUT -m tcp -p tcp --dport 3243 -j ACCEPT" in iptables)
