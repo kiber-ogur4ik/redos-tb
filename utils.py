@@ -103,19 +103,19 @@ def check_task(self, task_number):
         task_check_widget_update(self, task_number, "active (running)" in result)
     elif task_number == "3-4":
         result = subprocess.check_output(
-            "pkexec --user postgres psql -c \\du", shell=True, text=True)
+            "pkexec --user postgres psql -c \\\du", shell=True, text=True)
         task_check_widget_update(self, task_number, "nextcloud" in result)
     elif task_number == "3-5":
         result = subprocess.check_output(
-            "pkexec --user postgres psql -c \\l", shell=True, text=True)
+            "pkexec --user postgres psql -c \\\l", shell=True, text=True)
         task_check_widget_update(self, task_number, "nextcloud" in result)
     elif task_number == "3-6":
         result = subprocess.check_output(
-            "pkexec --user postgres psql -c \\du", shell=True, text=True)
+            "pkexec --user postgres psql -c \\\du", shell=True, text=True)
         task_check_widget_update(self, task_number, "gitea" in result)
     elif task_number == "3-7":
         result = subprocess.check_output(
-            "pkexec --user postgres psql -c \\l", shell=True, text=True)
+            "pkexec --user postgres psql -c \\\l", shell=True, text=True)
         task_check_widget_update(self, task_number, "gitea" in result)
     elif task_number == "3-8":
         result = subprocess.check_output(
@@ -125,4 +125,5 @@ def check_task(self, task_number):
         result = subprocess.check_output(
             "pkexec cat /var/lib/pgsql/14/data/postgresql.conf", shell=True, text=True)
         task_check_widget_update(self, task_number, ("listen_addresses = '*'" in result and "port = 5432" in result))
+        
         
