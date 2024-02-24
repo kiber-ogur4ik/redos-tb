@@ -141,24 +141,16 @@ def check_task(self, task_number):
             task_number,
             ("listen_addresses = '*'" in output and "port = 5432" in output),
         )
-    elif task_number == "4-1":
+    elif task_number in ["4-1", "4-2", "4-3", "4-4", "4-5"]:
+        selinux_params = {
+            "4-1": "httpd_can_network_connect",
+            "4-2": "httpd_graceful_shutdown",
+            "4-3": "httpd_can_network_connect_db",
+            "4-4": "domain_can_mmap_files",
+            "4-5": "daemons_dump_core",
+        }
         output = subprocess.check_output(
-            "getenforce", shell=True, text=True
+            f"pkexec sudo getsebool {selinux_params[task_number]}", shell=True, text=True
         )
-        task_check_widget_update(self, task_number, "Permissive" in output)
-    elif task_number == "4-2":
-        output = subprocess.check_output(
-            "pkexec sudo semanage boolean -l", shell=True, text=True
-        )
-        needed_booleans = [
-            "httpd_can_network_connect",
-            "httpd_graceful_shutdown",
-            "httpd_can_network_connect_db",
-            "domain_can_mmap_files",
-            "daemons_dump_core",
-        ]
-        for line in output.split("\n"):
-            if all(needed in line for needed in needed_booleans and "(on   ,   on)" in line):
-                task_check_widget_update(self, task_number, True)
-        
+        task_check_widget_update(self, task_number, output.strip().endswith("on"))
     
