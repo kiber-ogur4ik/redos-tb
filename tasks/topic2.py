@@ -3,7 +3,7 @@ from textual.widgets import Markdown
 
 
 class Topic2:
-    name = "2. Файрволл"
+    name = "Тема 2: Файрволл"
 
     def compose(self):
         return [

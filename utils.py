@@ -7,8 +7,7 @@ import subprocess
 def topic_list():
     task_modules = []
     tasks_folder = "tasks"
-
-    for file in os.listdir(tasks_folder):
+    for file in sorted(os.listdir(tasks_folder)):
         if file.endswith(".py"):
             module_name = file[:-3]
             spec = importlib.util.spec_from_file_location(
@@ -144,3 +143,4 @@ def check_task(self, task_number):
             task_number,
             ("listen_addresses = '*'" in output and "port = 5432" in output),
         )
+        

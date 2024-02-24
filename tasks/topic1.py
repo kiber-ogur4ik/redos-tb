@@ -4,7 +4,7 @@ from textual.app import ComposeResult
 
 
 class Topic1:
-    name = "1. Удаленной доступ"
+    name = "Тема 1: Удаленной доступ"
 
     def compose(self):
         return [
