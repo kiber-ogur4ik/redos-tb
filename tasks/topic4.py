@@ -2,7 +2,7 @@
 #from textual.widgets import Markdown
 
 #class Topic4:
-#    name = "Тема 4: SELinux"
+#    name = "4. SELinux"
 #
 #    def compose(self):
 #        return [

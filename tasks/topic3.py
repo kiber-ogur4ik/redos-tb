@@ -3,7 +3,7 @@ from textual.widgets import Markdown
 
 
 class Topic3:
-    name = "Тема 3: База данных"
+    name = "3. База данных"
 
     def compose(self):
         return [
@@ -62,10 +62,12 @@ class Topic3:
             Markdown(
                 """
 ## Задание 3.9
-Разрешите подключение с любых адресов на порту 5432, отредактировав /var/lib/pgsql/14/data/postgresql.conf и перезапустите службу БД"""),
+Разрешите подключение с любых адресов на порту 5432, отредактировав /var/lib/pgsql/14/data/postgresql.conf и перезапустите службу БД"""
+            ),
+            utils.task_check_widget("3-9"),
             Markdown(
                 """ 
-## Заключениеq
+## Заключение
 Вы настроили базу данных. Теперь перейдем к настройке политик SELinux и установке Nextcloud.
 """
             ),
