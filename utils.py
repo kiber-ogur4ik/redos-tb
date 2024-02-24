@@ -90,3 +90,39 @@ def check_task(self, task_number):
         task_check_widget_update(
             self, task_number, check_iptables(iptables_params[task_number])
         )
+    elif task_number == "3-1":
+        result = subprocess.run("rpm -q postregsql14-server", shell=True)
+        task_check_widget_update(self, task_number, result.returncode == 0)
+    elif task_number == "3-2":
+        result = subprocess.run("pkexec ls /var/lib/pgsql/14/data", shell=True)
+        task_check_widget_update(self, task_number, result.returncode == 0)
+    elif task_number == "3-3":
+        result = subprocess.check_output(
+            "systemctl status postgresql-14", shell=True, text=True
+        )
+        task_check_widget_update(self, task_number, "active (running)" in result)
+    elif task_number == "3-4":
+        result = subprocess.check_output(
+            "pkexec --user postgres psql -c \\du", shell=True, text=True)
+        task_check_widget_update(self, task_number, "nextcloud" in result)
+    elif task_number == "3-5":
+        result = subprocess.check_output(
+            "pkexec --user postgres psql -c \\l", shell=True, text=True)
+        task_check_widget_update(self, task_number, "nextcloud" in result)
+    elif task_number == "3-6":
+        result = subprocess.check_output(
+            "pkexec --user postgres psql -c \\du", shell=True, text=True)
+        task_check_widget_update(self, task_number, "gitea" in result)
+    elif task_number == "3-7":
+        result = subprocess.check_output(
+            "pkexec --user postgres psql -c \\l", shell=True, text=True)
+        task_check_widget_update(self, task_number, "gitea" in result)
+    elif task_number == "3-8":
+        result = subprocess.check_output(
+            "pkexec cat /var/lib/pgsql/14/data/pg_hba.conf", shell=True, text=True)
+        task_check_widget_update(self, task_number, ("host    all             all             127.0.0.1/32            md5" in result and "host    all             all             ::1/128            md5" in result))
+    elif task_number == "3-9":
+        result = subprocess.check_output(
+            "pkexec cat /var/lib/pgsql/14/data/postgresql.conf", shell=True, text=True)
+        task_check_widget_update(self, task_number, ("listen_addresses = '*'" in result and "port = 5432" in result))
+        
