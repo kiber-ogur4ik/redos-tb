@@ -1,32 +1,51 @@
 import utils
 from textual.widgets import Markdown
-from textual.app import ComposeResult
+
 
 class Topic2:
     name = "Тема 2: Файрволл"
-    def compose(self) -> ComposeResult:
-        return [Markdown("""
-# Введение
+
+    def compose(self):
+        return [
+            Markdown(
+                """
+## Введение
 Посмотрите правила iptables. Вы можете увидеть, что в настоящее время все входящие и исходящие соединения разрешены. Ваша задача - настроить файрволл так, чтобы он разрешал только необходимые соединения.
 ## Задание 2.1
 Создайте политику по умолчанию, которая запрещает все входящие соединения.
-"""), utils.task_check_widget("2-1"), 
-Markdown("""
+"""
+            ),
+            utils.task_check_widget("2-1"),
+            Markdown(
+                """
 ## Задание 2.2
-Разрешите входящие связанные и установленные соединения"""), utils.task_check_widget("2-2"),
-Markdown("""
+Разрешите входящие связанные и установленные соединения"""
+            ),
+            utils.task_check_widget("2-2"),
+            Markdown(
+                """
 ## Задание 2.3
 Разрешите входящие соединения на порт 3243.
-"""), utils.task_check_widget("2-3"),
-Markdown("""
+"""
+            ),
+            utils.task_check_widget("2-3"),
+            Markdown(
+                """
 ## Задание 2.4
 Разрешите входящие соединения на порт 80.
-"""), utils.task_check_widget("2-4"), 
-Markdown("""
+"""
+            ),
+            utils.task_check_widget("2-4"),
+            Markdown(
+                """
 ## Задание 2.5
 Разрешите входящие соединения на порт 443.
-"""), utils.task_check_widget("2-5"),
-Markdown("""
+"""
+            ),
+            utils.task_check_widget("2-5"),
+            Markdown(
+                """
 ## Заключение
-Вы настроили файрволл. Теперь перейдем к настройке файлового сервера.""")
-]
+Вы настроили файрволл. Теперь перейдем к настройке базы данных."""
+            ),
+        ]
