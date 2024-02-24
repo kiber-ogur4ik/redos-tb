@@ -91,7 +91,7 @@ def check_task(self, task_number):
             self, task_number, check_iptables(iptables_params[task_number])
         )
     elif task_number == "3-1":
-        result = subprocess.run("rpm -q postregsql14-server", shell=True)
+        result = subprocess.run("rpm -q postgresql14-server", shell=True)
         task_check_widget_update(self, task_number, result.returncode == 0)
     elif task_number == "3-2":
         result = subprocess.run("pkexec ls /var/lib/pgsql/14/data", shell=True)
