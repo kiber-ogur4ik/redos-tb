@@ -72,6 +72,6 @@ def check_task(self, task_number):
             "2-3": "-A INPUT -p tcp --dport 3243 -j ACCEPT",
             "2-4": "-A INPUT -p tcp --dport 80 -j ACCEPT",
             "2-5": "-A INPUT -p tcp --dport 443 -j ACCEPT",
-            "2-6": "-A INPUT -s 192.168.1.0/24 -p tcp -m tcp --dport 23 -j ACCEPT"
+            
         }
         task_check_widget_update(self, task_number, check_iptables(iptables_params[task_number]))
