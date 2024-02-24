@@ -2,6 +2,7 @@ import os, importlib.util, inspect
 from textual.widgets import Button, Label
 from textual.containers import Horizontal, Center
 import subprocess
+from fuzzywuzzy import process
 def topic_list():
     task_modules = []
     tasks_folder = "tasks"
@@ -45,7 +46,7 @@ def check_task(self, task_number):
         result = subprocess.check_output("pkexec cat /etc/ssh/sshd_config", shell=True, text=True)
         task_check_widget_update(self, task_number, "Port 3243" in result)
     elif task_number == "1-2":
-        with open(f"/home/{os.environ["USER"]}/.ssh/id_rsa", "r") as f:
+        with open(f"/home/{os.environ['USER']}/.ssh/id_rsa", "r") as f:
             task_check_widget_update(self, task_number, "-----BEGIN OPENSSH PRIVATE KEY-----" in f.readline())
     elif task_number == "1-3":
         # запросить доступ к руту через polkit и найти в файле /etc/ssh/sshd_config строку PasswordAuthentication no
@@ -58,14 +59,14 @@ def check_task(self, task_number):
         iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
         task_check_widget_update(self, task_number, ("-P INPUT DROP" in iptables) and ("-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT" in iptables))
     elif task_number == "2-2":
-        iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, "-A INPUT -m tcp -p tcp --dport 3243 -j ACCEPT" in iptables)
+        iptables = subprocess.check_output("pkexec sudo iptables -S", shell=True, text=True)
+        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -m tcp -p tcp --dport 3243 -j ACCEPT", iptables.split("\n"))[1] > 80)
     elif task_number == "2-3":
         iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, "-A INPUT -m tcp -p tcp --dport 80 -j ACCEPT" in iptables)
+        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -m tcp -p tcp --dport 80 -j ACCEPT", iptables.split("\n"))[1] > 80)
     elif task_number == "2-4":
         iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, "-A INPUT -m tcp -p tcp --dport 443 -j ACCEPT" in iptables)
+        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -m tcp -p tcp --dport 443 -j ACCEPT", iptables.split("\n"))[1] > 80)
     elif task_number == "2-5":
         iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, "-A INPUT -s 192.168.1.0/24 -p tcp -m tcp --dport 23 -j ACCEPT" in iptables)
+        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -s 192.168.1.0/24 -p tcp -m tcp --dport 23 -j ACCEPT", iptables.split("\n"))[1] > 80)
