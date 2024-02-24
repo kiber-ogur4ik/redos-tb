@@ -131,8 +131,6 @@ def check_task(self, task_number):
                 and "md5" in line
             ):
                 result = True
-            if "host" in line and "all" in line and "::/128" in line and "md5" in line:
-                result = True
         task_check_widget_update(self, task_number, result)
     elif task_number == "3-9":
         output = subprocess.check_output(
@@ -143,4 +141,24 @@ def check_task(self, task_number):
             task_number,
             ("listen_addresses = '*'" in output and "port = 5432" in output),
         )
+    elif task_number == "4-1":
+        output = subprocess.check_output(
+            "getenforce", shell=True, text=True
+        )
+        task_check_widget_update(self, task_number, "Permissive" in output)
+    elif task_number == "4-2":
+        output = subprocess.check_output(
+            "pkexec sudo semanage boolean -l", shell=True, text=True
+        )
+        needed_booleans = [
+            "httpd_can_network_connect",
+            "httpd_graceful_shutdown",
+            "httpd_can_network_connect_db",
+            "domain_can_mmap_files",
+            "daemons_dump_core",
+        ]
+        for line in output.split("\n"):
+            if all(needed in line for needed in needed_booleans and "(on   ,   on)" in line):
+                task_check_widget_update(self, task_number, True)
         
+    
