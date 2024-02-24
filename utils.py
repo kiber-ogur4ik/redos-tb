@@ -2,7 +2,7 @@ import os, importlib.util, inspect
 from textual.widgets import Button, Label
 from textual.containers import Horizontal, Center
 import subprocess
-from fuzzywuzzy import process
+
 def topic_list():
     task_modules = []
     tasks_folder = "tasks"
@@ -38,8 +38,18 @@ def task_check_widget_update(self, task_number, success):
         button = self.query_one(f"#verify-{task_number}")
         button.variant = "error"
         self.query_one("#main-content").focus()
-        
-    
+
+#такие костыли нужны потому что правило iptables может быть записано в разной форме и сравнение строк не всегда сработает
+def check_iptables(params):
+    import platform
+
+    rules = subprocess.check_output("pkexec sudo iptables -S", shell=True, text=True)
+    for rule in rules.split("\n"):
+        if all(params in rule for params in params.split(" ")):
+            return True
+    return False
+
+
 def check_task(self, task_number):
     #TODO: проверка заданий и учет выполненных в completed_tasks
     if task_number == "1-1":
@@ -55,18 +65,13 @@ def check_task(self, task_number):
             completed = "PasswordAuthentication no" in sshd_config
         finally:
             task_check_widget_update(self, task_number, completed) 
-    elif task_number == "2-1":
-        iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, ("-P INPUT DROP" in iptables) and ("-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT" in iptables))
-    elif task_number == "2-2":
-        iptables = subprocess.check_output("pkexec sudo iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -m tcp -p tcp --dport 3243 -j ACCEPT", iptables.split("\n"))[1] > 80)
-    elif task_number == "2-3":
-        iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -m tcp -p tcp --dport 80 -j ACCEPT", iptables.split("\n"))[1] > 80)
-    elif task_number == "2-4":
-        iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -m tcp -p tcp --dport 443 -j ACCEPT", iptables.split("\n"))[1] > 80)
-    elif task_number == "2-5":
-        iptables = subprocess.check_output("pkexec iptables -S", shell=True, text=True)
-        task_check_widget_update(self, task_number, process.extractOne("-A INPUT -s 192.168.1.0/24 -p tcp -m tcp --dport 23 -j ACCEPT", iptables.split("\n"))[1] > 80)
+    elif task_number in ["2-1", "2-2", "2-3", "2-4", "2-5"]:
+        iptables_params = {
+            "2-1": "-P INPUT DROP",
+            "2-2": "-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT",
+            "2-3": "-A INPUT -p tcp --dport 3243 -j ACCEPT",
+            "2-4": "-A INPUT -p tcp --dport 80 -j ACCEPT",
+            "2-5": "-A INPUT -p tcp --dport 443 -j ACCEPT",
+            "2-6": "-A INPUT -s 192.168.1.0/24 -p tcp -m tcp --dport 23 -j ACCEPT"
+        }
+        task_check_widget_update(self, task_number, check_iptables(iptables_params[task_number]))
