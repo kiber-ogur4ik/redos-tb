@@ -37,7 +37,7 @@ def task_check_widget_update(self, task_number, success):
         button = self.query_one(f"#verify-{task_number}")
         button.variant = "success"
         button.disabled = True
-        self.remaining_tasks.pop(task_number)
+        self.remaining_tasks.pop(self.remaining_tasks.index(task_number))
         
     else:
         self.query_one(f"#result-{task_number}").update("При проверке возникла ошибка")
