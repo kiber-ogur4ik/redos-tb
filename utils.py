@@ -10,10 +10,12 @@ def topic_list():
     for file in sorted(os.listdir(tasks_folder)):
         if file.endswith(".py"):
             module_name = file[:-3]
-            spec = importlib.util.spec_from_file_location(module_name, os.path.join(tasks_folder, file))
+            spec = importlib.util.spec_from_file_location(
+                module_name, os.path.join(tasks_folder, file)
+            )
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            
+
             for name, obj in inspect.getmembers(module):
                 if inspect.isclass(obj) and name.startswith("Topic"):
                     task_list.append(obj)
@@ -23,7 +25,7 @@ def topic_list():
 
 def task_check_widget(self, task_number):
     if task_number not in self.remaining_tasks:
-        self.remaining_tasks.append(task_number)    
+        self.remaining_tasks.append(task_number)
     return Horizontal(
         Button(" Проверить", id=f"verify-{task_number}"),
         Center(Label("Не выполнено", id=f"result-{task_number}")),
@@ -38,13 +40,13 @@ def task_check_widget_update(self, task_number, success):
         button.variant = "success"
         button.disabled = True
         self.remaining_tasks.pop(self.remaining_tasks.index(task_number))
-        
+
     else:
         self.query_one(f"#result-{task_number}").update("При проверке возникла ошибка")
         button = self.query_one(f"#verify-{task_number}")
         button.variant = "error"
         self.query_one("#main-content").focus()
-    
+
 
 # такие костыли нужны потому что правило iptables может быть записано в разной форме и сравнение строк не всегда сработает
 def check_iptables(params):
@@ -208,19 +210,26 @@ def check_task(self, task_number):
             and os.path.exists("/etc/gitea"),
         )
     elif task_number == "5-4":
+        output = subprocess.run("getenforce", shell=True, text=True)
+        task_check_widget_update(self, task_number, output == "Permissive")
+    elif task_number == "5-5":
         try:
-            output = subprocess.check_output("systemctl status gitea", shell=True, text=True)
+            output = subprocess.check_output(
+                "systemctl status gitea", shell=True, text=True
+            )
             task_check_widget_update(self, task_number, "active (running)" in output)
         except:
             pass
-    elif task_number == "5-5":
-        output = subprocess.check_output("nginx -t", shell=True, text=True)
-        task_check_widget_update(self, task_number, "successful" in output and os.path.exists("/etc/nginx/conf.d/gitea.conf"))
     elif task_number == "5-6":
+        output = subprocess.check_output("nginx -t", shell=True, text=True)
+        task_check_widget_update(
+            self,
+            task_number,
+            "successful" in output and os.path.exists("/etc/nginx/conf.d/gitea.conf"),
+        )
+    elif task_number == "5-7":
         task_check_widget_update(
             self,
             task_number,
             requests.get("http://127.0.0.1/gitea").status_code == 200,
         )
-    
-        
