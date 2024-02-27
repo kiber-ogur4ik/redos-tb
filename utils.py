@@ -139,28 +139,14 @@ def check_task(self, task_number):
             task_number,
             ("listen_addresses = '*'" in output and "port = 5432" in output),
         )
-    elif task_number in ["4-1", "4-2", "4-3", "4-4", "4-5"]:
-        selinux_params = {
-            "4-1": "httpd_can_network_connect",
-            "4-2": "httpd_graceful_shutdown",
-            "4-3": "httpd_can_network_connect_db",
-            "4-4": "domain_can_mmap_files",
-            "4-5": "daemons_dump_core",
-        }
-        output = subprocess.check_output(
-            f"pkexec sudo getsebool {selinux_params[task_number]}",
-            shell=True,
-            text=True,
-        )
-        task_check_widget_update(self, task_number, output.strip().endswith("on"))
-    elif task_number == "5-1":
+    elif task_number == "4-1":
         output = subprocess.run(
             "rpm -q nextcloud nextcloud-postgresql nextcloud-nginx",
             shell=True,
             text=True,
         )
         task_check_widget_update(self, task_number, output.returncode == 0)
-    elif task_number == "5-2":
+    elif task_number == "4-2":
         output = subprocess.check_output(
             "pkexec cat /etc/nginx/nginx.conf", shell=True, text=True
         )
@@ -176,7 +162,7 @@ def check_task(self, task_number):
                 and "fastcgi_send_timeout 600s" in output
             ),
         )
-    elif task_number == "5-3":
+    elif task_number == "4-3":
         output = subprocess.check_output(
             "pkexec cat /etc/php.ini", shell=True, text=True
         )
@@ -190,18 +176,18 @@ def check_task(self, task_number):
                 and "upload_tmp_dir = /tmp" in output
             ),
         )
-    elif task_number == "5-4":
+    elif task_number == "4-4":
         task_check_widget_update(
             self, task_number, os.path.exists("/usr/share/nextcloud/config/CAN_INSTALL")
         )
-    elif task_number == "5-5":
+    elif task_number == "4-5":
         task_check_widget_update(
             self,
             task_number,
             requests.get("http://127.0.0.1/nextcloud/index.php/login").status_code
             == 200,
         )
-    elif task_number == "6-1":
+    elif task_number == "5-1":
         try:
             os.access("/usr/local/bin/gitea", os.X_OK)
         except:
@@ -209,10 +195,10 @@ def check_task(self, task_number):
         else:
             result = True
         task_check_widget_update(self, task_number, result)
-    elif task_number == "6-2":
+    elif task_number == "5-2":
         output = subprocess.run("id git", shell=True)
         task_check_widget_update(self, task_number, output.returncode == 0)
-    elif task_number == "6-3":
+    elif task_number == "5-3":
         task_check_widget_update(
             self,
             task_number,
@@ -221,16 +207,16 @@ def check_task(self, task_number):
             and os.path.exists("/var/lib/gitea/log")
             and os.path.exists("/etc/gitea"),
         )
-    elif task_number == "6-4":
+    elif task_number == "5-4":
         try:
             output = subprocess.check_output("systemctl status gitea", shell=True, text=True)
             task_check_widget_update(self, task_number, "active (running)" in output)
         except:
             pass
-    elif task_number == "6-5":
+    elif task_number == "5-5":
         output = subprocess.check_output("nginx -t", shell=True, text=True)
         task_check_widget_update(self, task_number, "successful" in output and os.path.exists("/etc/nginx/conf.d/gitea.conf"))
-    elif task_number == "6-6":
+    elif task_number == "5-6":
         task_check_widget_update(
             self,
             task_number,

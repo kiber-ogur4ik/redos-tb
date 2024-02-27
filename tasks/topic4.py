@@ -1,47 +1,56 @@
 import utils
 from textual.widgets import Markdown
 
-
 class Topic4:
-    name = "Тема 4: SELinux"
+    name = "Тема 4: Nextcloud и Nginx"
 
     def compose(self):
         return [
             Markdown(
                 """
-## Введение 
-Для правильной работы веб-сервера необходимо настроить SELinux. Ваша задача - правильно настроить переключатели SELinux.
+## Введение
+Nextcloud - это программное обеспечение с открытым исходным кодом для создания собственного облачного хранилища. Ваша задача - установить Nextcloud и настроить его, вместе с Nginx.
+
 ## Задание 4.1
-Включите переключатель httpd_can_network_connect.
+Установите пакеты nextcloud nextcloud-postgresql nextcloud-nginx .
 """
             ),
             utils.task_check_widget(self,"4-1"),
             Markdown(
                 """
 ## Задание 4.2
-Включите переключатель httpd_graceful_shutdown.
+Настройте Nginx для работы с Nextcloud, сделая следующее:
+- Установите таймауты proxy_connect, proxy_send, proxy_read, fastcgi_read, fastcgi_send в значение 600 секунд
+- Перезапустите Nginx
 """
             ),
             utils.task_check_widget(self,"4-2"),
             Markdown(
                 """
 ## Задание 4.3
-Включите переключатель httpd_can_network_connect_db.
+Настройте PHP для работы с Nextcloud, сделав следующее:
+- Установите лимит памяти в значение 412M
+- Установите параметр max_input_vars в значение 1000
+- Уставовите максимальное время выполнения в значение 3600
+- Установите временную папку для загрузок в /tmp
 """
             ),
             utils.task_check_widget(self,"4-3"),
             Markdown(
                 """
-## Задание 4.4
-Включите переключатель domain_can_mmap_files.
+## Задание 4.4 
+Запустите установку и настройку Nextcloud, создав файл CAN_INSTALL в /usr/share/nextcloud/config.
 """
             ),
             utils.task_check_widget(self,"4-4"),
-            Markdown(
+            Markdown("""
+## Задание 4.4
+Пройдите первоначальную настройку Nextcloud, используя в качестве параметров базы данных параметры, которые вы использовали при настройке PostgreSQL.
                 """
-## Задание 4.5
-Включите переключатель daemons_dump_core.
-"""
-            ),
-            utils.task_check_widget(self,"4-5"),
+            ), utils.task_check_widget(self,"4-4"),
+            Markdown("""
+## Заключение
+Вы успешно установили и настроили Nextcloud и Nginx. Давайте перейдём к следущей и заключительной теме.
+            """
+            )
         ]
