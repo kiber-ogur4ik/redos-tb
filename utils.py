@@ -4,23 +4,20 @@ from textual.containers import Horizontal, Center
 
 
 def topic_list():
-    task_modules = []
     tasks_folder = "tasks"
+    task_list = []
+
     for file in sorted(os.listdir(tasks_folder)):
         if file.endswith(".py"):
             module_name = file[:-3]
-            spec = importlib.util.spec_from_file_location(
-                module_name, os.path.join(tasks_folder, file)
-            )
+            spec = importlib.util.spec_from_file_location(module_name, os.path.join(tasks_folder, file))
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            task_modules.append(module)
+            
+            for name, obj in inspect.getmembers(module):
+                if inspect.isclass(obj) and name.startswith("Topic"):
+                    task_list.append(obj)
 
-    task_list = []
-    for module in task_modules:
-        for name, obj in inspect.getmembers(module):
-            if inspect.isclass(obj) and name.startswith("Topic"):
-                task_list.append(obj)
     return task_list
 
 
