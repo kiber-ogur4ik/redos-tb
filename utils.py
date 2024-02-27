@@ -222,8 +222,11 @@ def check_task(self, task_number):
             and os.path.exists("/etc/gitea"),
         )
     elif task_number == "6-4":
-        output = subprocess.check_output("systemctl status gitea", shell=True, text=True)
-        task_check_widget_update(self, task_number, "active (running)" in output)
+        try:
+            output = subprocess.check_output("systemctl status gitea", shell=True, text=True)
+            task_check_widget_update(self, task_number, "active (running)" in output)
+        except:
+            pass
     elif task_number == "6-5":
         output = subprocess.check_output("nginx -t", shell=True, text=True)
         task_check_widget_update(self, task_number, "successful" in output and os.path.exists("/etc/nginx/conf.d/gitea.conf"))
