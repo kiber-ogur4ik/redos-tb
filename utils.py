@@ -81,7 +81,6 @@ def check_task(self, task_number):
             "2-2": "-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT",
             "2-3": "-A INPUT -p tcp --dport 3243 -j ACCEPT",
             "2-4": "-A INPUT -p tcp --dport 80 -j ACCEPT",
-            "2-5": "-A INPUT -p tcp --dport 443 -j ACCEPT",
         }
         task_check_widget_update(
             self, task_number, check_iptables(iptables_params[task_number])
@@ -169,7 +168,7 @@ def check_task(self, task_number):
             self,
             task_number,
             (
-                "sendfile on" in output
+                "linux.local" in output
                 and "proxy_connect_timeout 600s" in output
                 and "proxy_send_timeout 600s" in output
                 and "proxy_read_timeout 600s" in output
@@ -192,11 +191,11 @@ def check_task(self, task_number):
             ),
         )
     elif task_number == "5-4":
-        task_check_widget(
+        task_check_widget_update(
             self, task_number, os.path.exists("/usr/share/nextcloud/config/CAN_INSTALL")
         )
     elif task_number == "5-5":
-        task_check_widget(
+        task_check_widget_update(
             self,
             task_number,
             requests.get("http://linux.local/nextcloud/index.php/login").status_code
@@ -214,7 +213,7 @@ def check_task(self, task_number):
         output = subprocess.run("id git", shell=True)
         task_check_widget_update(self, task_number, output.returncode == 0)
     elif task_number == "6-3":
-        task_check_widget(
+        task_check_widget_update(
             self,
             task_number,
             os.path.exists("/var/lib/gitea/custom")
@@ -229,7 +228,7 @@ def check_task(self, task_number):
         output = subprocess.check_output("nginx -t", shell=True, text=True)
         task_check_widget_update(self, task_number, "successful" in output and os.path.exists("/etc/nginx/conf.d/gitea.conf"))
     elif task_number == "6-6":
-        task_check_widget(
+        task_check_widget_update(
             self,
             task_number,
             requests.get("http://linux.local/gitea").status_code == 200,
