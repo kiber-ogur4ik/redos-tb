@@ -193,7 +193,7 @@ def check_task(self, task_number):
         try:
             os.access("/usr/local/bin/gitea", os.X_OK)
         except:
-            result = False
+            result = False 
         else:
             result = True
         task_check_widget_update(self, task_number, result)
@@ -221,15 +221,8 @@ def check_task(self, task_number):
         except:
             pass
     elif task_number == "5-6":
-        output = subprocess.check_output("nginx -t", shell=True, text=True)
         task_check_widget_update(
             self,
             task_number,
-            "successful" in output and os.path.exists("/etc/nginx/conf.d/gitea.conf"),
-        )
-    elif task_number == "5-7":
-        task_check_widget_update(
-            self,
-            task_number,
-            requests.get("http://127.0.0.1/gitea").status_code == 200,
+            requests.get("http://localhost:3000/").status_code == 200,
         )
