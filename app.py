@@ -7,8 +7,8 @@ topic_list = utils.topic_list()
 
 
 class Tbapp(App):
-
-    completed_tasks = []
+    
+    remaining_tasks = []
     CSS_PATH = "app.tcss"
 
     def compose(self) -> ComposeResult:
@@ -25,8 +25,9 @@ class Tbapp(App):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         task_number = event.button.id.replace("verify-", "")
         utils.check_task(self, task_number)
-
+    
 
 if __name__ == "__main__":
     app = Tbapp()
     app.run()
+    

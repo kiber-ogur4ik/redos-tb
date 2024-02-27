@@ -15,34 +15,34 @@ class Topic2:
 Создайте политику по умолчанию, которая запрещает все входящие соединения.
 """
             ),
-            utils.task_check_widget("2-1"),
+            utils.task_check_widget(self,"2-1"),
             Markdown(
                 """
 ## Задание 2.2
 Разрешите входящие связанные и установленные соединения"""
             ),
-            utils.task_check_widget("2-2"),
+            utils.task_check_widget(self,"2-2"),
             Markdown(
                 """
 ## Задание 2.3
 Разрешите входящие соединения на порт 3243.
 """
             ),
-            utils.task_check_widget("2-3"),
+            utils.task_check_widget(self,"2-3"),
             Markdown(
                 """
 ## Задание 2.4
 Разрешите входящие соединения на порт 80.
 """
             ),
-            utils.task_check_widget("2-4"),
+            utils.task_check_widget(self,"2-4"),
             Markdown(
                 """
 ## Задание 2.5
 Разрешите входящие соединения на порт 443.
 """
             ),
-            utils.task_check_widget("2-5"),
+            utils.task_check_widget(self,"2-5"),
             Markdown(
                 """
 ## Заключение

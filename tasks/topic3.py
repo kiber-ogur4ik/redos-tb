@@ -15,56 +15,56 @@ class Topic3:
 Установите PostgreSQL 14 с помощью пакетного менеджера dnf.
 """
             ),
-            utils.task_check_widget("3-1"),
+            utils.task_check_widget(self,"3-1"),
             Markdown(
                 """
 ## Задание 3.2
 Инициализируйте базу данных."""
             ),
-            utils.task_check_widget("3-2"),
+            utils.task_check_widget(self,"3-2"),
             Markdown(
                 """
 ## Задание 3.3
 Включите и запустите службу PostgreSQL.
 """
             ),
-            utils.task_check_widget("3-3"),
+            utils.task_check_widget(self,"3-3"),
             Markdown(
                 """
 ## Задание 3.4
 Создайте пользователя БД nextcloud"""
             ),
-            utils.task_check_widget("3-4"),
+            utils.task_check_widget(self,"3-4"),
             Markdown(
                 """
 ## Задание 3.5
 Создайте базу данных nextcloud, которой владеет пользователь nextcloud"""
             ),
-            utils.task_check_widget("3-5"),
+            utils.task_check_widget(self,"3-5"),
             Markdown(
                 """
 ## Задание 3.6
 Создайте пользователя БД gitea"""
             ),
-            utils.task_check_widget("3-6"),
+            utils.task_check_widget(self,"3-6"),
             Markdown(
                 """
 ## Задание 3.7
 Создайте базу данных gitea, которой владеет пользователь gitea"""
             ),
-            utils.task_check_widget("3-7"),
+            utils.task_check_widget(self,"3-7"),
             Markdown(
                 """
 ## Задание 3.8
 В файле /var/lib/pgsql/14/data/pg_hba.conf измените метод аунтефикации с scram-sha-256 на md5 для локальных IPv4 и IPv6 соеденений """
             ),
-            utils.task_check_widget("3-8"),
+            utils.task_check_widget(self,"3-8"),
             Markdown(
                 """
 ## Задание 3.9
 Разрешите подключение с любых адресов на порту 5432, отредактировав /var/lib/pgsql/14/data/postgresql.conf и перезапустите службу БД"""
             ),
-            utils.task_check_widget("3-9"),
+            utils.task_check_widget(self,"3-9"),
             Markdown(
                 """ 
 ## Заключение

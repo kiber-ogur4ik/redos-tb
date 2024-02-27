@@ -15,33 +15,33 @@ class Topic4:
 Включите переключатель httpd_can_network_connect.
 """
             ),
-            utils.task_check_widget("4-1"),
+            utils.task_check_widget(self,"4-1"),
             Markdown(
                 """
 ## Задание 4.2
 Включите переключатель httpd_graceful_shutdown.
 """
             ),
-            utils.task_check_widget("4-2"),
+            utils.task_check_widget(self,"4-2"),
             Markdown(
                 """
 ## Задание 4.3
 Включите переключатель httpd_can_network_connect_db.
 """
             ),
-            utils.task_check_widget("4-3"),
+            utils.task_check_widget(self,"4-3"),
             Markdown(
                 """
 ## Задание 4.4
 Включите переключатель domain_can_mmap_files.
 """
             ),
-            utils.task_check_widget("4-4"),
+            utils.task_check_widget(self,"4-4"),
             Markdown(
                 """
 ## Задание 4.5
 Включите переключатель daemons_dump_core.
 """
             ),
-            utils.task_check_widget("4-5"),
+            utils.task_check_widget(self,"4-5"),
         ]
