@@ -198,7 +198,7 @@ def check_task(self, task_number):
         task_check_widget_update(
             self,
             task_number,
-            requests.get("http://linux.local/nextcloud/index.php/login").status_code
+            requests.get("http://127.0.0.1/nextcloud/index.php/login").status_code
             == 200,
         )
     elif task_number == "6-1":
@@ -231,7 +231,7 @@ def check_task(self, task_number):
         task_check_widget_update(
             self,
             task_number,
-            requests.get("http://linux.local/gitea").status_code == 200,
+            requests.get("http://127.0.0.1/gitea").status_code == 200,
         )
     
         

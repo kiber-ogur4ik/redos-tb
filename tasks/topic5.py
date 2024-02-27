@@ -20,7 +20,6 @@ Nextcloud - это программное обеспечение с открыт
                 """
 ## Задание 5.2
 Настройте Nginx для работы с Nextcloud, сделая следующее:
-- Используйте в качестве имени сервера linux.local
 - Установите таймауты proxy_connect, proxy_send, proxy_read, fastcgi_read, fastcgi_send в значение 600 секунд
 - Перезапустите Nginx
 """
